@@ -386,6 +386,70 @@ export function Navbar() {
                 )}
               </div>
             ))}
+            {/* Account section for mobile */}
+            <div className="pt-4 mt-4 border-t border-[#e2e8f0]">
+              {authLoading ? (
+                <div className="h-10 bg-gray-100 rounded-xl animate-pulse" />
+              ) : isAuthenticated ? (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 px-4 py-2 bg-[#faf8f6] rounded-xl border border-[#2e4c7e]/10">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border border-[#2e4c7e]/20 bg-white shrink-0">
+                      {user?.avatar ? (
+                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#2e4c7e]/5 text-[#2e4c7e] font-semibold text-sm">
+                          {user?.name?.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold text-[#333]">{user?.name}</span>
+                      <span className="text-[10px] text-[#777]">{user?.role === 'admin' ? 'Quản trị viên' : 'Khách hàng'}</span>
+                    </div>
+                  </div>
+                  <Link
+                    href="/account/profile"
+                    className="block py-2.5 px-4 text-sm font-semibold text-[#2e4c7e] hover:bg-[#eef2f6] rounded-xl transition-all"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Hồ sơ cá nhân
+                  </Link>
+                  <Link
+                    href="/account/orders"
+                    className="block py-2.5 px-4 text-sm font-semibold text-[#2e4c7e] hover:bg-[#eef2f6] rounded-xl transition-all"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Lịch sử đơn hàng
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full text-left py-2.5 px-4 text-sm font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-all bg-transparent border-none cursor-pointer"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3 px-2">
+                  <Link
+                    href="/login"
+                    className="flex items-center justify-center py-3 bg-[#2e4c7e] text-white text-xs font-bold tracking-wider uppercase rounded-xl shadow-md transition-all text-center"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Đăng nhập
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="flex items-center justify-center py-3 border-2 border-[#2e4c7e] text-[#2e4c7e] hover:bg-[#eef2f6]/30 text-xs font-bold tracking-wider uppercase rounded-xl transition-all text-center bg-transparent"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Đăng ký
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       )}

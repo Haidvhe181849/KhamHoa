@@ -106,12 +106,12 @@ export function HeroBanner() {
                       </div>
 
                       {/* Main Headline */}
-                      <h1 className="text-4xl md:text-5xl lg:text-[3.75rem] font-serif text-[#333] leading-[1.12] mb-6 whitespace-pre-line">
+                      <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-serif text-[#333] leading-[1.15] mb-4 sm:mb-6 whitespace-pre-line">
                         {slide.headline}
                       </h1>
 
                       {/* Sub-headline */}
-                      <p className="text-[#666] text-sm md:text-base lg:text-lg mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
+                      <p className="text-[#666] text-xs sm:text-sm md:text-base lg:text-lg mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
                         {slide.subHeadline}
                       </p>
 
@@ -207,8 +207,8 @@ export function HeroBanner() {
         </CarouselContent>
 
         {/* Navigation Arrows */}
-        <CarouselPrevious className="absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/70 hover:bg-white text-[#333] border-none shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95" />
-        <CarouselNext className="absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/70 hover:bg-white text-[#333] border-none shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95" />
+        <CarouselPrevious className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/70 hover:bg-white text-[#333] border-none shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95" />
+        <CarouselNext className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/70 hover:bg-white text-[#333] border-none shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95" />
       </Carousel>
     </section>
   );
