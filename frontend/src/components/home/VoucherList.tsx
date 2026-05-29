@@ -46,16 +46,23 @@ export function VoucherList() {
   const [vouchers, setVouchers] = useState<VoucherType[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState({ days: 3, hours: 12, minutes: 45, seconds: 30 });
+  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/vouchers`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success && data.data && data.data.length > 0) {
-          setVouchers(data.data);
+        if (data.success && data.data) {
+          // Chỉ lấy các voucher đang kích hoạt (isActive === true) và chưa hết hạn
+          const activeVouchers = data.data.filter((v: any) => v.isActive !== false);
+          setVouchers(activeVouchers);
         }
+        setHasLoaded(true);
       })
-      .catch((err) => console.error("Error fetching vouchers:", err));
+      .catch((err) => {
+        console.error("Error fetching vouchers:", err);
+        setHasLoaded(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -79,7 +86,12 @@ export function VoucherList() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const list = vouchers.length > 0 ? vouchers : fallbackVouchers;
+  // Nếu chưa tải xong hoặc không có voucher nào, không hiển thị phần này (giữ website gọn gàng, cao cấp)
+  if (!hasLoaded || vouchers.length === 0) {
+    return null;
+  }
+
+  const list = vouchers;
 
   return (
     <section className="py-12 md:py-16 bg-[#e0f0ff]">
