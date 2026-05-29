@@ -28,6 +28,7 @@ const orderLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { keyGeneratorIpFallback: false },
     keyGenerator: (req) => {
         // Trích xuất userId từ JWT (Cookie hoặc Header Authorization) để chặn spam qua nhiều IP proxy/VPN
         let token;

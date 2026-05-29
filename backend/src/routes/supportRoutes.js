@@ -20,6 +20,7 @@ const supportLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { keyGeneratorIpFallback: false },
     keyGenerator: (req) => {
         // Giới hạn theo User ID nếu đã được giải mã từ protect middleware, fallback về IP
         return req.user ? req.user.id : req.ip;
