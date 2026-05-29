@@ -25,7 +25,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ 
     storage: storage,
     limits: {
-        fileSize: 5 * 1024 * 1024 // Giới hạn kích thước file tải lên tối đa 5MB
+        fileSize: 10 * 1024 * 1024 // Giới hạn kích thước file tải lên tối đa 10MB (Hỗ trợ ảnh độ phân giải cao)
     },
     fileFilter: (req, file, cb) => {
         // Chỉ chấp nhận các MIME type hình ảnh thực tế (Tránh bypass bằng đuôi mở rộng giả)
