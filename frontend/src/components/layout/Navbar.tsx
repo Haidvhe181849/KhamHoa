@@ -189,15 +189,15 @@ export function Navbar() {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-24 relative">
-            <Link href="/" className="flex items-center gap-4 shrink-0 group py-2 relative z-10">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden border border-[#2e4c7e]/20 transition-transform duration-500 group-hover:rotate-[360deg] shadow-md shadow-[#2e4c7e]/10 bg-white">
+            <Link href="/" className="flex items-center gap-2 sm:gap-4 shrink-0 group py-2 relative z-10">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border border-[#2e4c7e]/20 transition-transform duration-500 group-hover:rotate-[360deg] shadow-md shadow-[#2e4c7e]/10 bg-white">
                 <Image src="/images/logoKhamHoa.png" alt="Khảm Hoa Logo" fill className="object-cover scale-[1.75]" />
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl md:text-3xl font-serif tracking-[0.12em] text-[#2e4c7e] font-bold leading-none mb-1.5">
+                <span className="text-lg sm:text-2xl md:text-3xl font-serif tracking-[0.08em] sm:tracking-[0.12em] text-[#2e4c7e] font-bold leading-none mb-1">
                   KHẢM HOA
                 </span>
-                <span className="text-[9px] tracking-[0.25em] text-[#999] uppercase font-medium">
+                <span className="hidden sm:block text-[9px] tracking-[0.25em] text-[#999] uppercase font-medium">
                   Tinh Hoa NGHỆ THUẬT KHẢM ĐƯƠNG ĐẠI
                 </span>
               </div>
