@@ -80,7 +80,7 @@ export function HeroBanner() {
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="pl-0">
               <div
-                className={`relative w-full min-h-[550px] md:min-h-[650px] lg:min-h-[750px] flex items-center transition-all duration-700 ${slide.bgImage
+                className={`relative w-full min-h-[380px] sm:min-h-[500px] md:min-h-[650px] lg:min-h-[750px] flex items-center transition-all duration-700 ${slide.bgImage
                   ? "bg-cover bg-center"
                   : "bg-gradient-to-br from-[#f0f7ff] via-[#fafdff] to-[#e6f0fa]"
                   }`}
@@ -89,13 +89,13 @@ export function HeroBanner() {
                 {/* Visual Overlay for background images to ensure high text contrast (using subtle overlay only if needed, currently transparent to let the full 100% width image shine) */}
 
                 <div className="container mx-auto px-4 md:px-6 h-full z-10 relative">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-16 lg:py-0">
+                  <div className="grid grid-cols-12 gap-4 sm:gap-12 items-center py-4 sm:py-16 lg:py-0 h-full">
 
                     {/* Text Content - LEFT */}
-                    <div className="w-full flex flex-col justify-center text-center lg:text-left order-2 lg:order-1 px-2 lg:px-0">
+                    <div className="col-span-7 sm:col-span-6 flex flex-col justify-center text-left order-1 px-1 sm:px-0">
 
                       {/* Elegant Glassmorphic Badge Pill */}
-                      <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-full text-xs tracking-wider mb-6 w-fit mx-auto lg:mx-0 shadow-sm shadow-[#2e4c7e]/10">
+                      {/* <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-full text-xs tracking-wider mb-6 w-fit mx-auto lg:mx-0 shadow-sm shadow-[#2e4c7e]/10">
                         <span className="font-bold text-[#b47a72] uppercase tracking-[0.22em] text-[10px]">
                           {slide.promo}
                         </span>
@@ -103,40 +103,42 @@ export function HeroBanner() {
                         <span className="text-[#888] text-[9px] tracking-widest uppercase font-bold">
                           Khảm Hoa Store
                         </span>
-                      </div>
+                      </div> */}
 
                       {/* Main Headline */}
-                      <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-serif text-[#333] leading-[1.15] mb-4 sm:mb-6 whitespace-pre-line">
+                      <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-[3.75rem] font-serif text-[#333] leading-[1.2] sm:leading-[1.15] mb-2 sm:mb-6 whitespace-pre-line">
                         {slide.headline}
                       </h1>
 
                       {/* Sub-headline */}
-                      <p className="text-[#666] text-xs sm:text-sm md:text-base lg:text-lg mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
+                      <p className="hidden sm:block text-[#666] text-xs sm:text-sm md:text-base lg:text-lg mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
                         {slide.subHeadline}
                       </p>
 
                       {/* CTAs */}
-                      <div className="flex flex-col sm:flex-row gap-3.5 justify-center lg:justify-start">
+                      <div className="flex gap-2 sm:gap-3.5 justify-start">
                         <Link href={slide.link} passHref>
-                          <Button className="w-full sm:w-auto bg-[#2e4c7e] hover:bg-[#1f3a63] text-white px-9 py-6.5 text-xs font-semibold tracking-widest uppercase rounded-full shadow-lg shadow-[#2e4c7e]/30 hover:shadow-xl hover:shadow-[#2e4c7e]/40 transition-all duration-300 hover:-translate-y-0.5">
+                          <Button className="bg-[#2e4c7e] hover:bg-[#1f3a63] text-white px-3 sm:px-9 py-2 sm:py-6.5 text-[9px] sm:text-xs font-semibold tracking-wider sm:tracking-widest uppercase rounded-full shadow-md shadow-[#2e4c7e]/20 hover:shadow-lg transition-all duration-300">
                             {slide.cta}
                           </Button>
                         </Link>
-                        <Link href={slide.linkSecondary} passHref>
-                          <Button variant="outline" className="w-full sm:w-auto border-2 border-[#2e4c7e] text-[#2e4c7e] hover:bg-[#2e4c7e] hover:text-white px-9 py-6.5 text-xs font-semibold tracking-widest uppercase rounded-full transition-all duration-300 hover:-translate-y-0.5 bg-transparent">
-                            {slide.ctaSecondary}
-                          </Button>
-                        </Link>
+                        {slide.ctaSecondary && (
+                          <Link href={slide.linkSecondary} passHref className="hidden sm:block">
+                            <Button variant="outline" className="border-2 border-[#2e4c7e] text-[#2e4c7e] hover:bg-[#2e4c7e] hover:text-white px-9 py-6.5 text-xs font-semibold tracking-widest uppercase rounded-full transition-all duration-300 bg-transparent">
+                              {slide.ctaSecondary}
+                            </Button>
+                          </Link>
+                        )}
                       </div>
                     </div>
 
                     {/* Image block - RIGHT (Inspired directly by the Huy Thanh float & collage design!) */}
-                    <div className="w-full flex items-center justify-center relative order-1 lg:order-2 mb-6 lg:mb-0">
+                    <div className="col-span-5 sm:col-span-6 flex items-center justify-center relative order-2 mb-0">
                       {/* If the slide is NOT using a full background image, render the premium floating composition dynamically! */}
                       {!slide.bgImage && slide.image ? (
-                        <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[440px] md:h-[440px] lg:w-[500px] lg:h-[500px]">
+                        <div className="relative w-[120px] h-[120px] sm:w-[280px] sm:h-[280px] md:w-[440px] md:h-[440px] lg:w-[500px] lg:h-[500px]">
                           {/* Soft decorative background shadow */}
-                          <div className="absolute inset-8 rounded-full bg-gradient-to-br from-[#eef2f6]/60 to-[#e8d8c3]/40 blur-3xl" />
+                          <div className="absolute inset-2 sm:inset-8 rounded-full bg-gradient-to-br from-[#eef2f6]/60 to-[#e8d8c3]/40 blur-2xl" />
 
                           {/* 1. Main Transparent Product (Floating) */}
                           <div className="relative w-full h-[90%] z-20 animate-banner-float">
@@ -144,13 +146,13 @@ export function HeroBanner() {
                               src={slide.image}
                               alt={slide.headline}
                               fill
-                              className="object-contain drop-shadow-[0_25px_30px_rgba(216,163,157,0.3)] transition-transform duration-700 hover:scale-[1.03]"
+                              className="object-contain drop-shadow-[0_15px_20px_rgba(216,163,157,0.2)] sm:drop-shadow-[0_25px_30px_rgba(216,163,157,0.3)] transition-transform duration-700 hover:scale-[1.03]"
                               priority
                             />
                           </div>
 
                           {/* 2. Floating Polaroid Fan (Artisan Workshop Collage) */}
-                          <div className="absolute bottom-[-15px] left-1/2 -translate-x-1/2 w-[95%] flex justify-center gap-2.5 z-10 rotate-[-2deg]">
+                          <div className="hidden sm:flex absolute bottom-[-15px] left-1/2 -translate-x-1/2 w-[95%] justify-center gap-2.5 z-10 rotate-[-2deg]">
 
                             {/* Polaroid 1 */}
                             <div className="w-16 h-20 sm:w-22 sm:h-26 bg-white p-1.5 shadow-xl border border-[#e2e8f0] rounded -rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
@@ -195,7 +197,7 @@ export function HeroBanner() {
                         </div>
                       ) : (
                         // If it's a full-width background image slide, we leave this block empty so the background design is fully visible on the right
-                        <div className="w-full h-[280px] lg:h-full lg:min-h-[500px]" />
+                        <div className="w-full h-[150px] lg:h-full lg:min-h-[500px]" />
                       )}
                     </div>
 
