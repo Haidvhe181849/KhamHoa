@@ -197,7 +197,7 @@ export function Navbar() {
                 <span className="text-lg sm:text-2xl md:text-3xl font-serif tracking-[0.08em] sm:tracking-[0.12em] text-[#2e4c7e] font-bold leading-none mb-1">
                   KHẢM HOA
                 </span>
-                <span className="hidden sm:block text-[9px] tracking-[0.25em] text-[#999] uppercase font-medium">
+                <span className="text-[7px] sm:text-[9px] tracking-normal sm:tracking-[0.25em] text-[#999] uppercase font-semibold leading-none mt-1">
                   Tinh Hoa NGHỆ THUẬT KHẢM ĐƯƠNG ĐẠI
                 </span>
               </div>
