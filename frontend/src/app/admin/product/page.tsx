@@ -3,9 +3,9 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { fetchWithAuth, API_BASE_URL } from "@/lib/api";
-import { 
-  Search, Box, Plus, Edit3, Trash2, Loader2, Sparkles, X, 
-  Upload, Image as ImageIcon, AlertCircle, RefreshCw 
+import {
+  Search, Box, Plus, Edit3, Trash2, Loader2, Sparkles, X,
+  Upload, Image as ImageIcon, AlertCircle, RefreshCw
 } from "lucide-react";
 import { useToast } from "@/components/ui/ToastContext";
 import { useConfirm } from "@/components/ui/ConfirmContext";
@@ -76,7 +76,7 @@ function ProductsContent() {
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  
+
   // File upload previews states
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -179,7 +179,7 @@ function ProductsContent() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      
+
       // Enforce up to 5 images max
       const nextFiles = [...selectedFiles, ...files].slice(0, 5);
       setSelectedFiles(nextFiles);
@@ -231,30 +231,76 @@ function ProductsContent() {
       }
 
       let res;
-      if (editingProduct) {
-        // Update product PUT
-        res = await fetchWithAuth(`${API_BASE_URL}/api/products/${editingProduct._id}`, {
-          method: "PUT",
-          body: formData
-        });
-      } else {
-        // Create product POST
-        res = await fetchWithAuth(`${API_BASE_URL}/api/products`, {
-          method: "POST",
-          body: formData
-        });
+      try {
+        if (editingProduct) {
+          // Update product PUT
+          res = await fetchWithAuth(`${API_BASE_URL}/api/products/${editingProduct._id}`, {
+            method: "PUT",
+            body: formData
+          });
+        } else {
+          // Create product POST
+          res = await fetchWithAuth(`${API_BASE_URL}/api/products`, {
+            method: "POST",
+            body: formData
+          });
+        }
+      } catch (networkErr: any) {
+        console.error("Lỗi kết nối mạng:", networkErr);
+        toast.error(`Không thể kết nối tới máy chủ (${API_BASE_URL}). Vui lòng kiểm tra xem Backend đã khởi chạy chưa hoặc có bị chặn CORS/Nginx không! Chi tiết: ${networkErr.message || networkErr}`);
+        setActionLoading(false);
+        return;
       }
 
-      const data = await res.json();
+      // Xử lý phản hồi từ server
+      let data;
+      const contentType = res.headers.get("content-type");
+      
+      if (!contentType || !contentType.includes("application/json")) {
+        // Phản hồi không phải là JSON (thường là trang lỗi HTML của Nginx hoặc Express crash)
+        const responseText = await res.text();
+        console.error("Phản hồi không hợp lệ từ server (không phải JSON):", responseText);
+        
+        if (res.status === 413) {
+          toast.error("❌ LỖI 413 (Dung lượng quá lớn): Hình ảnh bạn chọn vượt quá giới hạn tải lên của Nginx trên VPS (mặc định là 1MB). Hãy nén ảnh xuống dưới 1MB hoặc thêm cấu hình 'client_max_body_size 10M;' vào file cấu hình Nginx của VPS!");
+        } else if (res.status === 502) {
+          toast.error("❌ LỖI 502 (Bad Gateway): Cổng kết nối giữa Nginx và Node.js Backend bị gián đoạn. Vui lòng kiểm tra xem backend có đang hoạt động trên port 5000 không!");
+        } else {
+          toast.error(`❌ LỖI HỆ THỐNG (Mã ${res.status}): Máy chủ trả về phản hồi không hợp lệ. Vui lòng kiểm tra nhật ký lỗi (logs) của backend.`);
+        }
+        setActionLoading(false);
+        return;
+      }
+
+      try {
+        data = await res.json();
+      } catch (parseErr: any) {
+        console.error("Lỗi parse JSON:", parseErr);
+        toast.error(`Không thể đọc định dạng dữ liệu trả về từ máy chủ. Chi tiết: ${parseErr.message}`);
+        setActionLoading(false);
+        return;
+      }
+
       if (res.ok && data.success) {
         toast.success(editingProduct ? "Cập nhật sản phẩm thành công!" : "Tạo sản phẩm thành công!");
         setIsFormOpen(false);
         await fetchProducts(currentPage);
       } else {
-        toast.error(data.message || "Lỗi xử lý nghiệp vụ sản phẩm.");
+        // Hiển thị chi tiết lỗi nghiệp vụ từ backend
+        const errorMessage = data.message || "Lỗi xử lý nghiệp vụ sản phẩm.";
+        if (errorMessage.includes("categoryId") || errorMessage.includes("Category")) {
+          toast.error(`❌ Lỗi Danh mục: Danh mục bạn chọn không tồn tại hoặc ID không hợp lệ trong database Atlas!`);
+        } else if (res.status === 401 || res.status === 403) {
+          toast.error(`❌ Lỗi bảo mật (${res.status}): Phiên đăng nhập Admin của bạn đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại!`);
+        } else if (res.status === 500) {
+          toast.error(`❌ Lỗi Server (500): ${errorMessage} (Hãy kiểm tra cấu hình Cloudinary và kết nối MongoDB Atlas của backend)`);
+        } else {
+          toast.error(`❌ Thất bại: ${errorMessage}`);
+        }
       }
-    } catch (err) {
-      toast.error("Lỗi kết nối máy chủ cập nhật sản phẩm.");
+    } catch (err: any) {
+      console.error("Lỗi tổng quát:", err);
+      toast.error(`Lỗi hệ thống: ${err.message || err}`);
     } finally {
       setActionLoading(false);
     }
@@ -298,7 +344,7 @@ function ProductsContent() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      
+
       {/* HEADER SECTION */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -320,7 +366,7 @@ function ProductsContent() {
       {/* FILTER & SEARCH BAR */}
       <div className="bg-white/[0.02] border border-white/[0.06] p-4 rounded-2xl backdrop-blur-md">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          
+
           {/* Search Input */}
           <div className="relative md:col-span-2">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
@@ -389,7 +435,7 @@ function ProductsContent() {
               {products.length > 0 ? (
                 products.map((prod) => (
                   <tr key={prod._id} className="hover:bg-white/[0.01] transition-colors group">
-                    
+
                     {/* Catalog Image + name snippet */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3.5">
@@ -416,7 +462,7 @@ function ProductsContent() {
                     </td>
 
                     <td className="px-5 py-4 font-extrabold text-[#c9a15c]">{formatPrice(prod.price)}</td>
-                    
+
                     <td className="px-5 py-4 font-semibold text-white">
                       {prod.stock <= 5 ? (
                         <span className="text-rose-400 font-bold flex items-center gap-1">
@@ -495,13 +541,13 @@ function ProductsContent() {
       {isFormOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-300 overflow-y-auto">
           <div className="bg-[#1C1816] border border-white/[0.08] rounded-2xl w-full max-w-2xl shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
-            
+
             {/* Modal Header */}
             <div className="bg-[#171412] px-6 py-4 border-b border-white/[0.06] flex justify-between items-center shrink-0">
               <h3 className="text-base font-serif font-bold text-white tracking-wide uppercase flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-[#c9a15c]" /> {editingProduct ? "Sửa sản phẩm" : "Thêm sản phẩm mới"}
               </h3>
-              <button 
+              <button
                 onClick={() => setIsFormOpen(false)}
                 className="p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
               >
@@ -511,7 +557,7 @@ function ProductsContent() {
 
             {/* Modal Form Scrollable */}
             <form onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 scrollbar-thin">
-              
+
               {/* Product name */}
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tên sản phẩm *</label>
@@ -527,7 +573,7 @@ function ProductsContent() {
 
               {/* Double column grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                
+
                 {/* Price */}
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Giá bán (VNĐ) *</label>
@@ -588,7 +634,7 @@ function ProductsContent() {
               {/* High-fidelity custom Image Upload dropzone */}
               <div className="space-y-3">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Đăng tải hình ảnh xà cừ (Tối đa 5 ảnh)</label>
-                
+
                 {/* File Dropzone */}
                 <div className="relative border-2 border-dashed border-white/[0.08] hover:border-[#c9a15c]/50 rounded-2xl p-6 text-center transition-all bg-[#171412]/40 select-none">
                   <input
@@ -609,16 +655,16 @@ function ProductsContent() {
                     <span className="text-[9px] uppercase tracking-wider text-[#c9a15c] font-black">Ảnh đã lưu hiện tại:</span>
                     <div className="grid grid-cols-5 gap-3.5">
                       {existingImages.map((img, idx) => (
-                        <button 
-                          key={idx} 
+                        <button
+                          key={idx}
                           type="button"
                           className="relative w-16 h-16 rounded-xl border border-white/10 overflow-hidden bg-white/5 shadow group focus:outline-none focus:ring-2 focus:ring-rose-500/50"
                         >
                           <img src={img.url} alt="existing product pic" className="w-full h-full object-cover transition-transform group-hover:scale-105 group-focus:scale-105" />
-                          
+
                           {/* Overlay mờ khi tương tác */}
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200" />
-                          
+
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -643,16 +689,16 @@ function ProductsContent() {
                     <span className="text-[9px] uppercase tracking-wider text-emerald-400 font-black">Ảnh mới chuẩn bị tải lên:</span>
                     <div className="grid grid-cols-5 gap-3.5">
                       {previewUrls.map((url, idx) => (
-                        <button 
+                        <button
                           key={idx}
-                          type="button" 
+                          type="button"
                           className="relative w-16 h-16 rounded-xl border border-emerald-500/10 overflow-hidden bg-white/5 shadow group focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                         >
                           <img src={url} alt="upload preview" className="w-full h-full object-cover transition-transform group-hover:scale-105 group-focus:scale-105" />
-                          
+
                           {/* Overlay */}
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200" />
-                          
+
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
