@@ -141,7 +141,7 @@ export function HeroBanner() {
                           <div className="absolute inset-2 sm:inset-8 rounded-full bg-gradient-to-br from-[#eef2f6]/60 to-[#e8d8c3]/40 blur-2xl" />
 
                           {/* 1. Main Transparent Product (Floating) */}
-                          <div className="relative w-full h-[90%] z-20 animate-banner-float">
+                          <div className="relative w-full h-[70%] sm:h-[90%] z-20 animate-banner-float">
                             <Image
                               src={slide.image}
                               alt={slide.headline}
@@ -152,7 +152,7 @@ export function HeroBanner() {
                           </div>
 
                           {/* 2. Floating Polaroid Fan (Artisan Workshop Collage) */}
-                          <div className="flex absolute bottom-[-14px] sm:bottom-[-15px] left-1/2 -translate-x-1/2 w-[112%] sm:w-[95%] justify-center gap-1.5 sm:gap-2.5 z-10 rotate-[-2deg]">
+                          <div className="flex absolute bottom-[-22px] xs:bottom-[-30px] sm:bottom-[-15px] left-1/2 -translate-x-1/2 w-[112%] sm:w-[95%] justify-center gap-1.5 sm:gap-2.5 z-10 rotate-[-2deg]">
 
                             {/* Polaroid 1 */}
                             <div className="w-[50px] h-[62px] xs:w-[68px] xs:h-[84px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded -rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
