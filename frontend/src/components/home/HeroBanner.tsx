@@ -80,7 +80,7 @@ export function HeroBanner() {
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="pl-0">
               <div
-                className={`relative w-full min-h-[380px] sm:min-h-[500px] md:min-h-[650px] lg:min-h-[750px] flex items-center transition-all duration-700 ${slide.bgImage
+                className={`relative w-full min-h-[420px] xs:min-h-[480px] sm:min-h-[500px] md:min-h-[650px] lg:min-h-[750px] flex items-center transition-all duration-700 ${slide.bgImage
                   ? "bg-cover bg-center"
                   : "bg-gradient-to-br from-[#f0f7ff] via-[#fafdff] to-[#e6f0fa]"
                   }`}
@@ -89,10 +89,10 @@ export function HeroBanner() {
                 {/* Visual Overlay for background images to ensure high text contrast (using subtle overlay only if needed, currently transparent to let the full 100% width image shine) */}
 
                 <div className="container mx-auto px-4 md:px-6 h-full z-10 relative">
-                  <div className="grid grid-cols-12 gap-4 sm:gap-12 items-center py-4 sm:py-16 lg:py-0 h-full">
+                  <div className="grid grid-cols-12 gap-4 sm:gap-12 items-center py-6 xs:py-10 sm:py-16 lg:py-0 h-full">
 
                     {/* Text Content - LEFT */}
-                    <div className="col-span-7 sm:col-span-6 flex flex-col justify-center text-left order-1 px-1 sm:px-0">
+                    <div className="col-span-6 flex flex-col justify-center text-left order-1 px-1 sm:px-0">
 
                       {/* Elegant Glassmorphic Badge Pill */}
                       {/* <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-full text-xs tracking-wider mb-6 w-fit mx-auto lg:mx-0 shadow-sm shadow-[#2e4c7e]/10">
@@ -133,10 +133,10 @@ export function HeroBanner() {
                     </div>
 
                     {/* Image block - RIGHT (Inspired directly by the Huy Thanh float & collage design!) */}
-                    <div className="col-span-5 sm:col-span-6 flex items-center justify-center relative order-2 mb-0">
+                    <div className="col-span-6 flex items-center justify-center relative order-2 mb-0">
                       {/* If the slide is NOT using a full background image, render the premium floating composition dynamically! */}
                       {!slide.bgImage && slide.image ? (
-                        <div className="relative w-[130px] h-[130px] xs:w-[160px] xs:h-[160px] sm:w-[280px] sm:h-[280px] md:w-[440px] md:h-[440px] lg:w-[500px] lg:h-[500px]">
+                        <div className="relative w-[160px] h-[160px] xs:w-[200px] xs:h-[200px] sm:w-[280px] sm:h-[280px] md:w-[440px] md:h-[440px] lg:w-[500px] lg:h-[500px]">
                           {/* Soft decorative background shadow */}
                           <div className="absolute inset-2 sm:inset-8 rounded-full bg-gradient-to-br from-[#eef2f6]/60 to-[#e8d8c3]/40 blur-2xl" />
 
@@ -152,10 +152,10 @@ export function HeroBanner() {
                           </div>
 
                           {/* 2. Floating Polaroid Fan (Artisan Workshop Collage) */}
-                          <div className="flex absolute bottom-[-10px] sm:bottom-[-15px] left-1/2 -translate-x-1/2 w-[105%] sm:w-[95%] justify-center gap-1 sm:gap-2.5 z-10 rotate-[-2deg]">
+                          <div className="flex absolute bottom-[-14px] sm:bottom-[-15px] left-1/2 -translate-x-1/2 w-[112%] sm:w-[95%] justify-center gap-1.5 sm:gap-2.5 z-10 rotate-[-2deg]">
 
                             {/* Polaroid 1 */}
-                            <div className="w-[42px] h-[52px] xs:w-[56px] xs:h-[70px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded -rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
+                            <div className="w-[50px] h-[62px] xs:w-[68px] xs:h-[84px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded -rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
                               <div className="relative w-full h-[76%] overflow-hidden bg-[#faf8f6] rounded-sm">
                                 <Image
                                   src="/images/products/nhan-xa-cu.png"
@@ -164,11 +164,11 @@ export function HeroBanner() {
                                   className="object-cover"
                                 />
                               </div>
-                              <div className="text-[4px] xs:text-[5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Khảm nghệ thuật</div>
+                              <div className="text-[4.5px] xs:text-[5.5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Khảm nghệ thuật</div>
                             </div>
 
                             {/* Polaroid 2 */}
-                            <div className="w-[42px] h-[52px] xs:w-[56px] xs:h-[70px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded rotate-2 translate-y-0.5 xs:translate-y-1 sm:translate-y-1.5 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
+                            <div className="w-[50px] h-[62px] xs:w-[68px] xs:h-[84px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded rotate-2 translate-y-0.5 xs:translate-y-1 sm:translate-y-1.5 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
                               <div className="relative w-full h-[76%] overflow-hidden bg-[#faf8f6] rounded-sm">
                                 <Image
                                   src="/images/products/phu-kien-toc-xa-cu.png"
@@ -177,11 +177,11 @@ export function HeroBanner() {
                                   className="object-cover"
                                 />
                               </div>
-                              <div className="text-[4px] xs:text-[5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Chế tác thủ công</div>
+                              <div className="text-[4.5px] xs:text-[5.5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Chế tác thủ công</div>
                             </div>
 
                             {/* Polaroid 3 */}
-                            <div className="w-[42px] h-[52px] xs:w-[56px] xs:h-[70px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
+                            <div className="w-[50px] h-[62px] xs:w-[68px] xs:h-[84px] sm:w-22 sm:h-26 bg-white p-0.5 xs:p-1 sm:p-1.5 shadow-md sm:shadow-xl border border-[#e2e8f0] rounded rotate-12 transition-all hover:rotate-0 hover:scale-110 duration-300 cursor-pointer">
                               <div className="relative w-full h-[76%] overflow-hidden bg-[#faf8f6] rounded-sm">
                                 <Image
                                   src="/images/products/day-chuyen-xa-cu.png"
@@ -190,7 +190,7 @@ export function HeroBanner() {
                                   className="object-cover"
                                 />
                               </div>
-                              <div className="text-[4px] xs:text-[5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Vẻ đẹp độc bản</div>
+                              <div className="text-[4.5px] xs:text-[5.5px] sm:text-[6px] text-center font-bold text-[#888] mt-0.5 sm:mt-1 font-serif">Vẻ đẹp độc bản</div>
                             </div>
 
                           </div>
