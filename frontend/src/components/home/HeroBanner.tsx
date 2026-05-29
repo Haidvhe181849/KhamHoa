@@ -16,7 +16,7 @@ import { useRef } from "react";
 const slides = [
   {
     id: 1,
-    promo: "Tinh Hoa Di Sản",
+    // promo: "Tinh Hoa Di Sản",
     headline: "Tinh Hoa Khảm Trai Việt",
     subHeadline: "Từ những mảnh xà cừ tự nhiên qua đôi bàn tay nghệ nhân lâu đời, mỗi sản phẩm tại Khảm Hoa là một kiệt tác di sản văn hóa độc bản.",
     image: "", // Embedded in the premium bgImage!
@@ -28,7 +28,7 @@ const slides = [
   },
   {
     id: 2,
-    promo: "Bộ Sưu Tập Mới",
+    // promo: "Bộ Sưu Tập Mới",
     headline: "TRANG SỨC\nKHẢM XÀ CỪ TỰ NHIÊN",
     subHeadline: "Nhẫn, dây chuyền, bông tai và vòng tay mang vẻ đẹp thanh lịch độc bản, óng ánh sắc màu chuyển sắc kỳ ảo của đại dương.",
     image: "/images/products/nhan-xa-cu.png",
@@ -40,7 +40,7 @@ const slides = [
   },
   {
     id: 3,
-    promo: "Quà Tặng Ý Nghĩa",
+    // promo: "Quà Tặng Ý Nghĩa",
     headline: "PHỤ KIỆN\nMỸ NGHỆ THỦ CÔNG",
     subHeadline: "Lược khảm trai dáng tròn cổ điển và trâm cài tóc tinh xảo — tôn vinh nét duyên dáng thanh lịch và giá trị văn hóa nghệ thuật truyền thống.",
     image: "/images/products/phu-kien-toc-xa-cu.png",
