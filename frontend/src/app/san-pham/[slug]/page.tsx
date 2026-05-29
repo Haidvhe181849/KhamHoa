@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Star, ShoppingCart, ShieldCheck, Truck, RefreshCw, ChevronRight, Minus, Plus } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import ProductReviews from "@/components/products/ProductReviews";
+import { API_BASE_URL } from "@/lib/api";
 
 interface ProductType {
   _id: string;
@@ -58,7 +59,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
   useEffect(() => {
     // Fetch product details by slug
-    fetch(`http://localhost:5000/api/products/slug/${slug}`)
+    fetch(`${API_BASE_URL}/api/products/slug/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
@@ -67,7 +68,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
           
           // Fetch related products using category ID
           if (data.data.categoryId?._id) {
-            fetch(`http://localhost:5000/api/products?categoryId=${data.data.categoryId._id}&limit=4`)
+            fetch(`${API_BASE_URL}/api/products?categoryId=${data.data.categoryId._id}&limit=4`)
               .then((r) => r.json())
               .then((relData) => {
                 if (relData.success && relData.data) {

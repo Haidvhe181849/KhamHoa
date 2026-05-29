@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/CartContext";
+import { API_BASE_URL } from "@/lib/api";
 
 interface ProductType {
   id: string;
@@ -85,7 +86,7 @@ export function BestSeller() {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products?sort=-sold&limit=8")
+    fetch(`${API_BASE_URL}/api/products?sort=-sold&limit=8`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data && data.data.length > 0) {

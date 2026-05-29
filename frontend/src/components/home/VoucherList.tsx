@@ -5,6 +5,7 @@ import { Ticket, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { API_BASE_URL } from "@/lib/api";
 
 interface VoucherType {
   _id: string;
@@ -47,7 +48,7 @@ export function VoucherList() {
   const [timeLeft, setTimeLeft] = useState({ days: 3, hours: 12, minutes: 45, seconds: 30 });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/vouchers")
+    fetch(`${API_BASE_URL}/api/vouchers`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data && data.data.length > 0) {

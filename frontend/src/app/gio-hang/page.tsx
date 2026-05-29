@@ -127,7 +127,7 @@ export default function CartPage() {
 
   // Fetch available vouchers
   useEffect(() => {
-    fetch("http://localhost:5000/api/vouchers")
+    fetch(`${API_BASE_URL}/api/vouchers`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
@@ -154,7 +154,7 @@ export default function CartPage() {
     setLoadingVoucher(true);
     setVoucherError(null);
 
-    fetch("http://localhost:5000/api/vouchers/apply", {
+    fetch(`${API_BASE_URL}/api/vouchers/apply`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -194,7 +194,7 @@ export default function CartPage() {
   // Re-calculate voucher discount if cartTotal changes
   useEffect(() => {
     if (appliedVoucher) {
-      fetch("http://localhost:5000/api/vouchers/apply", {
+      fetch(`${API_BASE_URL}/api/vouchers/apply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
