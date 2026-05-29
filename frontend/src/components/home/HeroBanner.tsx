@@ -111,7 +111,7 @@ export function HeroBanner() {
                       </h1>
 
                       {/* Sub-headline */}
-                      <p className="hidden sm:block text-[#666] text-xs sm:text-sm md:text-base lg:text-lg mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
+                      <p className="block text-[#666] text-[10px] sm:text-sm md:text-base lg:text-lg mb-3 sm:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light line-clamp-3 sm:line-clamp-none">
                         {slide.subHeadline}
                       </p>
 
